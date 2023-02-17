@@ -164,7 +164,14 @@ pub struct ScrollArea {
     /// If true for vertical or horizontal the scroll wheel will stick to the
     /// end position until user manually changes position. It will become true
     /// again once scroll handle makes contact with end.
+<<<<<<< HEAD
     stick_to_end: Vec2b,
+=======
+    stick_to_end: [bool; 2],
+
+    /// Override for scroll delta. Normally taken from frame_state
+    override_scroll_delta: Option<Vec2>,
+>>>>>>> f4b39ecc (ScrollArea override_scroll_delta())
 }
 
 impl ScrollArea {
@@ -207,9 +214,15 @@ impl ScrollArea {
             offset_y: None,
             scrolling_enabled: true,
             drag_to_scroll: true,
+<<<<<<< HEAD
             stick_to_end: Vec2b::FALSE,
+=======
+            stick_to_end: [false; 2],
+            override_scroll_delta: None,
+>>>>>>> f4b39ecc (ScrollArea override_scroll_delta())
         }
     }
+
 
     /// The maximum width of the outer frame of the scroll area.
     ///
@@ -400,6 +413,11 @@ impl ScrollArea {
         self.stick_to_end[1] = stick;
         self
     }
+
+    pub fn override_scroll_delta(mut self, delta: Vec2) -> Self {
+        self.override_scroll_delta = Some(delta);
+        self
+    }
 }
 
 struct Prepared {
@@ -437,7 +455,12 @@ struct Prepared {
     viewport: Rect,
 
     scrolling_enabled: bool,
+<<<<<<< HEAD
     stick_to_end: Vec2b,
+=======
+    stick_to_end: [bool; 2],
+    override_scroll_delta: Option<Vec2>,
+>>>>>>> f4b39ecc (ScrollArea override_scroll_delta())
 }
 
 impl ScrollArea {
@@ -454,6 +477,7 @@ impl ScrollArea {
             scrolling_enabled,
             drag_to_scroll,
             stick_to_end,
+            override_scroll_delta,
         } = self;
 
         let ctx = ui.ctx().clone();
@@ -595,6 +619,7 @@ impl ScrollArea {
             viewport,
             scrolling_enabled,
             stick_to_end,
+            override_scroll_delta,
         }
     }
 
@@ -706,6 +731,7 @@ impl Prepared {
             viewport: _,
             scrolling_enabled,
             stick_to_end,
+            override_scroll_delta,
         } = self;
 
         let content_size = content_ui.min_size();
@@ -781,6 +807,7 @@ impl Prepared {
             let always_scroll_enabled_direction = ui.style().always_scroll_the_only_direction
                 && scroll_enabled[0] != scroll_enabled[1];
             for d in 0..2 {
+<<<<<<< HEAD
                 if scroll_enabled[d] {
                     let scroll_delta = ui.ctx().input_mut(|input| {
                         if always_scroll_enabled_direction {
@@ -790,6 +817,13 @@ impl Prepared {
                             input.smooth_scroll_delta[d]
                         }
                     });
+=======
+                if has_bar[d] {
+                    let scroll_delta = match override_scroll_delta {
+                        Some(delta) => delta,
+                        None => ui.ctx().frame_state(|fs| fs.scroll_delta)
+                    };
+>>>>>>> f4b39ecc (ScrollArea override_scroll_delta())
 
                     let scrolling_up = state.offset[d] > 0.0 && scroll_delta > 0.0;
                     let scrolling_down = state.offset[d] < max_offset[d] && scroll_delta < 0.0;
