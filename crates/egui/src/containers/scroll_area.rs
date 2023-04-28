@@ -211,7 +211,6 @@ impl ScrollArea {
         }
     }
 
-
     /// The maximum width of the outer frame of the scroll area.
     ///
     /// Use `f32::INFINITY` if you want the scroll area to expand to fit the surrounding [`Ui`] (default).
