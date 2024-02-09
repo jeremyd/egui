@@ -414,11 +414,6 @@ impl ScrollArea {
         self.stick_to_end[1] = stick;
         self
     }
-
-    pub fn override_scroll_delta(mut self, delta: Vec2) -> Self {
-        self.override_scroll_delta = Some(delta);
-        self
-    }
 }
 
 struct Prepared {
@@ -473,7 +468,6 @@ impl ScrollArea {
             scrolling_enabled,
             drag_to_scroll,
             stick_to_end,
-            override_scroll_delta,
         } = self;
 
         let ctx = ui.ctx().clone();
@@ -615,7 +609,6 @@ impl ScrollArea {
             viewport,
             scrolling_enabled,
             stick_to_end,
-            override_scroll_delta,
         }
     }
 
@@ -727,7 +720,6 @@ impl Prepared {
             viewport: _,
             scrolling_enabled,
             stick_to_end,
-            override_scroll_delta,
         } = self;
 
         let content_size = content_ui.min_size();
