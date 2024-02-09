@@ -182,10 +182,6 @@ impl Label {
             let galley = ui.fonts(|fonts| fonts.layout_job(layout_job));
 
             let pos = pos2(ui.max_rect().left(), ui.cursor().top());
-            assert!(
-                !text_galley.galley.rows.is_empty(),
-                "Galleys are never empty"
-            );
 
             // set the row height to ensure the cursor advancement is correct. when creating a child ui such as with
             // ui.horizontal_wrapped, the initial cursor will be set to the height of the child ui. this can lead
@@ -194,7 +190,6 @@ impl Label {
             // note that we do not set the row height earlier in this function as we do want to allow populating
             // `first_row_min_height` above. however it is crucial the placer knows the actual row height by
             // setting the cursor height before ui.allocate_rect() gets called.
-            ui.set_row_height(text_galley.galley.rows[0].height());
 
             // collect a response from many rows:
             let rect = galley.rows[0].rect.translate(vec2(pos.x, pos.y));
